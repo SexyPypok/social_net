@@ -15,6 +15,12 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+                    @foreach(Auth::user()->comments as $comment)
+                        <br>
+                        {{  $loop->iteration  }} 
+                        ) 
+                        {{  $comment['text']  }}
+                    @endforeach
                 </div>
             </div>
         </div>

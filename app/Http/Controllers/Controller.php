@@ -7,7 +7,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
-use App\Models\Comments;
+use App\Models\User;
 
 class Controller extends BaseController
 {
@@ -15,12 +15,17 @@ class Controller extends BaseController
 
     public function get_comm()
     {
-        $model = new Comments;
-        $comments = $model::all();
-
-        foreach($comments as $comment)
+        $model = new User;
+        $users = $model::all();
+        foreach($users as $user)
         {
-            echo $comment->text;
+            print_r($user['name']);
+            $comments = $user->comments()->get();
+
+            foreach($comments as $comment)
+            {
+                print_r($comment['text']);
+            }
         }
     }
 }
