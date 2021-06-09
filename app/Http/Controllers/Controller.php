@@ -16,7 +16,7 @@ class Controller extends BaseController
     public function get_comm()
     {
         $model = new User;
-        $users = $model::all();
+        $users = $model->all();
         foreach($users as $user)
         {
             print_r($user['name']);
