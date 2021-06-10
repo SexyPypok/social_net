@@ -12,18 +12,17 @@ class UserController extends Controller
 
     public function show_profile($profile_id)
     {
+        $user_id;
+
         if(Auth::user())
         {
             $user_id = Auth::user()->id;  
         }
-        else
-        {
-            $user_id = NULL;
-        }
 
         $comments = User::find($profile_id)->comments;
         $users = User::all();
-        return view('profile', ['comments' => $comments, 'profile_id' => $profile_id, 'user_id' => $user_id, 'users' => $users]);
+        return view('profile', ['comments' => $comments, 'profile_id' => $profile_id, 'user_id' => $user_id,
+            'users' => $users]);
     }
 
     public function add_comment(Request $request, $profile_id)
@@ -49,7 +48,9 @@ class UserController extends Controller
 
     public function del_comment(Request $request, $profile_id)
     {
-        Comments::destroy($request->delComment);
+        $comment = Comments::where('author_comment_id', Auth::user()->id)->orWhere('wall_owner_id', Auth::user()->id)
+            ->find($request->delComment);
+        $comment->delete();
 
         return $this->show_profile($profile_id);
     }

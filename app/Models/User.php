@@ -45,14 +45,4 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Comments', 'wall_owner_id', 'id');
     }
-
-    public function getCommentsUser()
-    {
-        return $this->comments;
-    }
-
-    public function addComment()
-    {
-        
-    }
 }
