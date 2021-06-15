@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ $users[($profile_id-1)]['name'] }}</div>
+                <div class="card-header"></div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -14,21 +14,11 @@
                         </div>
                     @endif
 
-                    @foreach($comments as $comment)
-                        <br>
-                        {{  $users[($comment['author_comment_id']-1)]['name']  }} 
-                        ) 
-                        {{  $comment['text']  }}
-
-                        @if($users[($comment['author_comment_id']-1)]['id'] == $user_id || $user_id == $profile_id)
-                            <form action="/profile/{{ $profile_id }}/del_comment" method="POST">
-                                {{ csrf_field() }}
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-primary" name="delComment" value="{{  $comment['id']  }}">Delete</button>
-                                </div>
-                            </form>
-                        @endif
-
+                    @foreach($users as $user)
+                        @foreach($user['comments'] as $comment)
+                            <br>
+                            {{ $user['name']}} ) {{  $comment['text'] }}
+                        @endforeach
                     @endforeach
 
                     @if(Auth::user())

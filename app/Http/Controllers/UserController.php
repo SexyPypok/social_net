@@ -10,8 +10,13 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
 
-    public function show_profile($profile_id)
+    public function show_profile($profile_id = NULL)
     {
+        if($profile_id == NULL && Auth::user())
+        {
+            $profile_id = Auth::user()->id;
+        }
+
         $user_id;
 
         if(Auth::user())
@@ -19,10 +24,9 @@ class UserController extends Controller
             $user_id = Auth::user()->id;  
         }
 
-        $comments = User::find($profile_id)->comments;
-        $users = User::all();
-        return view('profile', ['comments' => $comments, 'profile_id' => $profile_id, 'user_id' => $user_id,
-            'users' => $users]);
+        $user = User::all();
+        $comments = $user->load(['comments' => function($q) use($profile_id) {$q->where('wall_owner_id', $profile_id)->orderBy('created_at', 'desc');}]);
+        return view('profile', ['users' => $comments, 'profile_id' => $profile_id]);
     }
 
     public function add_comment(Request $request, $profile_id)
@@ -52,12 +56,6 @@ class UserController extends Controller
             ->find($request->delComment);
         $comment->delete();
 
-        return $this->show_profile($profile_id);
-    }
-
-    public function home_page()
-    {
-        $user_id = Auth::user()->id;  
-        return $this->show_profile($user_id);
+        return redirect('/profile/'.$profile_id);
     }
 }

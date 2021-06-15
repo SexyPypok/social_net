@@ -24,11 +24,11 @@ Route::get('/test', [Controller::class, 'get_comm']);
 
 Route::get('/profile/all', [UserController::class, 'users_list']);
 
-Route::get('/profile/{id}', [UserController::class, 'show_profile'])->where('id', '[0-9]+');
-
-Route::get('home', [UserController::class, 'home_page']);
+Route::get('profile/{id?}', [UserController::class, 'show_profile'])->where('id', '[0-9]+');
 
 Route::post('/profile/{id}/add_comment', [UserController::class, 'add_comment'])->where('id', '[0-9]+');
+
+Route::get('/profile/{id}/all', [UserController::class, 'show_all_profile'])->where('id', '[0-9]+');
 
 Route::post('/profile/{id}/del_comment', [UserController::class, 'del_comment'])->where('id', '[0-9]+');
 ?>

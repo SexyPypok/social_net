@@ -43,6 +43,6 @@ class User extends Authenticatable
 
     public function comments()
     {
-        return $this->hasMany('App\Models\Comments', 'wall_owner_id', 'id');
+        return $this->hasMany('App\Models\Comments', 'author_comment_id', 'id');
     }
 }
