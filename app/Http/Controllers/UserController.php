@@ -26,7 +26,7 @@ class UserController extends Controller
 
         $user = User::all();
         $comments = $user->load(['comments' => function($q) use($profile_id) {$q->where('wall_owner_id', $profile_id)->orderBy('created_at', 'desc');}]);
-        return view('profile', ['users' => $comments, 'profile_id' => $profile_id]);
+        return view('profile', ['users' => $comments, 'profile_id' => $profile_id, 'user_id' => Auth::user()->id]);
     }
 
     public function add_comment(Request $request, $profile_id)

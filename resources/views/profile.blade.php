@@ -18,6 +18,15 @@
                         @foreach($user['comments'] as $comment)
                             <br>
                             {{ $user['name']}} ) {{  $comment['text'] }}
+                            
+                            @if($user['id'] == $user_id || $user_id == $profile_id)
+                            <form action="/profile/{{ $profile_id }}/del_comment" method="POST">
+                                {{ csrf_field() }}
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary" name="delComment" value="{{  $comment['id']  }}">Delete</button>
+                                </div>
+                            </form>
+                            @endif
                         @endforeach
                     @endforeach
 
