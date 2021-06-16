@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +27,9 @@ Route::get('/profile/all', [UserController::class, 'users_list']);
 
 Route::get('profile/{id?}', [UserController::class, 'show_profile'])->where('id', '[0-9]+');
 
-Route::post('/profile/{id}/add_comment', [UserController::class, 'add_comment'])->where('id', '[0-9]+');
+Route::post('/profile/{id}/add_comment', [CommentController::class, 'add_comment'])->where('id', '[0-9]+');
 
-Route::get('/profile/{id}/all', [UserController::class, 'show_all_profile'])->where('id', '[0-9]+');
+Route::post('/profile/{id}/del_comment', [CommentController::class, 'del_comment'])->where('id', '[0-9]+');
 
-Route::post('/profile/{id}/del_comment', [UserController::class, 'del_comment'])->where('id', '[0-9]+');
+Route::get('/profile/{id}/all_comments', [CommentController::class, 'show_all_comments'])->where('id', '[0-9]+');
 ?>
