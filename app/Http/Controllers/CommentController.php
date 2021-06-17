@@ -31,10 +31,5 @@ class CommentController extends Controller
 
         return redirect('/profile/'.$profile_id);
     }
-
-    public function show_all_comments($profile_id)
-    {
-
-    }
 }
 //создать отдельную страницу для отображения всех записей
