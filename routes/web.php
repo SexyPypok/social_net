@@ -33,5 +33,5 @@ Route::post('/profile/{id}/del_comment', [CommentController::class, 'del_comment
 
 Route::get('/profile/{id}/all_comments', [CommentController::class, 'show_all_comments'])->where('id', '[0-9]+');
 
-Route::get('/profile/{id}/show_full_profile', [UserController::class, 'show_full_profile']);
+Route::get('/profile/show_full_profile', [UserController::class, 'show_full_profile']);
 ?>

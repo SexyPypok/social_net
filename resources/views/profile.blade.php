@@ -39,6 +39,30 @@
                                 </div>
                             </form>
                         @endif
+
+                        @if($full_page == NULL)
+                            <button class="show_all_comments btn btn-primary">Show all</button>
+                            
+                            <script>
+                                $(document).ready(function() {
+                                    $('button.show_all_comments').on('click', function(){
+                                        console.log('hello world');
+
+                                        $.ajax({
+                                            method: "GET",
+                                            url: "/profile/show_full_profile",
+                                            data: { button: "1" }
+                                        })
+                                        
+                                        .done(function( msg ) {
+                                            document.write(msg);
+                                        });
+                                    })
+
+                                    
+                                });
+                            </script>
+                        @endif
                     </div>
                 </div>
             </div>
