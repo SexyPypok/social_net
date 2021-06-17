@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header"></div>
+                    <div class="card-header">{{  $profile  }}</div>
 
                     <div class="card-body">
                         @if (session('status'))
@@ -44,14 +44,27 @@
                             <button class="show_all_comments btn btn-primary">Show all</button>
                             
                             <script>
+                               
                                 $(document).ready(function() {
                                     $('button.show_all_comments').on('click', function(){
-                                        console.log('hello world');
+                                        currentUrl = window.location.href;
+                                        splittedUrl = currentUrl.split('/');
+                                        profileId = splittedUrl[4];
+                                        
+                                        if(profileId == undefined)
+                                        {
+                                            profileUrl = "/show_full_profile";
+                                        }
+                                        
+                                        else
+                                        {
+                                            profileUrl = "/show_full_profile/"+profileId;
+
+                                        }
 
                                         $.ajax({
                                             method: "GET",
-                                            url: "/profile/show_full_profile",
-                                            data: { button: "1" }
+                                            url: profileUrl
                                         })
                                         
                                         .done(function( msg ) {
