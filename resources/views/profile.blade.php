@@ -16,11 +16,11 @@
 
                         @foreach($comments as $comment)
                             <br>
-                            {{  $comment->user->name }} ) {{  $comment->text  }}
+                            {{  $comment->user->name  }} ) {{  $comment->text  }}
                             
                             @if($user_id == $profile_id || $user_id == $comment->user->id)
                                 <form action="/profile/{{ $profile_id }}/del_comment" method="POST">
-                                    {{ csrf_field() }}
+                                    {{  csrf_field()  }}
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary" name="delComment"
                                             value="{{  $comment['id']  }}">Delete</button>
@@ -28,7 +28,6 @@
                                 </form>
                             @endif
                         @endforeach
-
                         @if($user_id)
                             <form action="/profile/{{ $profile_id }}/add_comment" method="POST">
                                 {{ csrf_field() }}
@@ -44,7 +43,6 @@
                             <button class="show_all_comments btn btn-primary">Show all</button>
                             
                             <script>
-                               
                                 $(document).ready(function() {
                                     $('button.show_all_comments').on('click', function(){
                                         currentUrl = window.location.href;
@@ -64,15 +62,15 @@
 
                                         $.ajax({
                                             method: "GET",
-                                            url: profileUrl
+                                            url: profileUrl,
+                                            success: function(data){
+                                                document.write(data);
+                                                $(document).ready(function() {
+                                                    checkForDOMElements();
+                                                });
+                                            }
                                         })
-                                        
-                                        .done(function( msg ) {
-                                            document.write(msg);
-                                        });
                                     })
-
-                                    
                                 });
                             </script>
                         @endif

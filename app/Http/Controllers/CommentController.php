@@ -10,7 +10,7 @@ class CommentController extends Controller
 {
     public function add_comment(Request $request, $profile_id)
     {
-        $user_id = Auth::user()->id;  
+        $user_id = Auth::user()->id;
         $comment = new Comment;
         $comment->wall_owner_id = $profile_id;
         $comment->author_comment_id = $user_id;
@@ -19,14 +19,16 @@ class CommentController extends Controller
         {
             $comment->save();
         }
-        
+
         return redirect('/profile/'.$profile_id);
     }
 
     public function del_comment(Request $request, $profile_id)
     {
-        $comment = Comment::where('author_comment_id', Auth::user()->id)->orWhere('wall_owner_id', Auth::user()->id)
-            ->find($request->delComment);
+        $comment = Comment::orWhere(function($query) 
+        {
+            $query->where('author_comment_id', Auth::user()->id)->where('wall_owner_id', Auth::user()->id);
+        })->find($request->delComment);
         $comment->delete();
 
         return redirect('/profile/'.$profile_id);

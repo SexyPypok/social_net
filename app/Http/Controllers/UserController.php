@@ -30,6 +30,7 @@ class UserController extends Controller
         $profile = $this->get_profile($profile_id);
 
         $comments = $profile->load(['comments' => function($q) { $q->orderBy('id', 'DESC'); }])->comments;
+        
         return view('profile', ['comments' => $comments, 'profile_id' => $profile_id, 'user_id' => $user_id,
             'full_page' => '1', 'profile' => $profile->name]);
     }
