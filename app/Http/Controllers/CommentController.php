@@ -21,6 +21,8 @@ class CommentController extends Controller
         {
             $comment->save();
         }
+
+        return redirect('/profile/'.$profile_id);
     }
 
     public function del_comment(Request $request, $profile_id)
