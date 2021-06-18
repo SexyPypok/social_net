@@ -3,9 +3,16 @@
         <br>
         <div class="alert alert-primary" role="alert">
             @if($comment->reply_comment_id)
-            <div class="alert alert-secondary" role="alert">
-                {{  $comment->find($comment->reply_comment_id)->user->name  }} ) {{  $comment->find($comment->reply_comment_id)->text  }}
-            </div>
+                @if($comment->find($comment->reply_comment_id))
+                    <div class="alert alert-secondary" role="alert">
+                        {{  $comment->find($comment->reply_comment_id)->user->name  }} ) {{  $comment->
+                            find($comment->reply_comment_id)->text  }}
+                    </div>
+                @else
+                    <div class="alert alert-danger" role="alert">
+                        Comment was deleted
+                    </div>
+                @endif
             @endif
 
             {{  $comment->user->name  }} ) {{  $comment->text  }}
