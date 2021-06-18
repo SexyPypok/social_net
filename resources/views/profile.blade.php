@@ -14,20 +14,45 @@
                             </div>
                         @endif
 
-                        @foreach($comments as $comment)
-                            <br>
-                            {{  $comment->user->name  }} ) {{  $comment->text  }}
-                            
-                            @if($user_id == $profile_id || $user_id == $comment->user->id)
-                                <form action="/profile/{{ $profile_id }}/del_comment" method="POST">
-                                    {{  csrf_field()  }}
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary" name="delComment"
-                                            value="{{  $comment['id']  }}">Delete</button>
-                                    </div>
-                                </form>
-                            @endif
-                        @endforeach
+                        <div class="comments">
+                            @include('comments')
+                        </div>
+                        <div class="ajax-query-button">
+                            <button class="show-all-comments btn btn-primary">Show all</button>
+                        </div>
+                        
+                        <script>
+                            $(document).ready(function() {
+                                $('button.show-all-comments').on('click', function(){
+                                    currentUrl = window.location.href;
+                                    splittedUrl = currentUrl.split('/');
+                                    profileId = splittedUrl[4];
+                                    
+                                    if(profileId == undefined)
+                                    {
+                                        profileUrl = "/show_full_profile";
+                                    }
+                                    
+                                    else
+                                    {
+                                        profileUrl = "/show_full_profile/"+profileId;
+
+                                    }
+
+                                    $.ajax({
+                                        method: "GET",
+                                        url: profileUrl,
+                                        success: function(data){
+                                            button = document.querySelector('div.ajax-query-button');
+                                            button.innerHTML = '';
+                                            comments = document.querySelector('div.comments');
+                                            comments.innerHTML = data;
+                                        }
+                                    })
+                                })
+                            });
+                        </script>
+
                         @if($user_id)
                             <form action="/profile/{{ $profile_id }}/add_comment" method="POST">
                                 {{ csrf_field() }}
@@ -37,42 +62,6 @@
                                     <button type="submit" class="btn btn-primary" name="addComment">Add</button>
                                 </div>
                             </form>
-                        @endif
-
-                        @if($full_page == NULL)
-                            <button class="show_all_comments btn btn-primary">Show all</button>
-                            
-                            <script>
-                                $(document).ready(function() {
-                                    $('button.show_all_comments').on('click', function(){
-                                        currentUrl = window.location.href;
-                                        splittedUrl = currentUrl.split('/');
-                                        profileId = splittedUrl[4];
-                                        
-                                        if(profileId == undefined)
-                                        {
-                                            profileUrl = "/show_full_profile";
-                                        }
-                                        
-                                        else
-                                        {
-                                            profileUrl = "/show_full_profile/"+profileId;
-
-                                        }
-
-                                        $.ajax({
-                                            method: "GET",
-                                            url: profileUrl,
-                                            success: function(data){
-                                                document.write(data);
-                                                $(document).ready(function() {
-                                                    checkForDOMElements();
-                                                });
-                                            }
-                                        })
-                                    })
-                                });
-                            </script>
                         @endif
                     </div>
                 </div>

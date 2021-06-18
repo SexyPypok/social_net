@@ -16,6 +16,7 @@ class UserController extends Controller
 
         $comments = $profile->load(['comments' => function($q) { $q->take(5)->orderBy('id', 'DESC'); }])->comments;
 
+        
         return view('profile', ['comments' => $comments, 'profile_id' => $profile_id, 'user_id' => $user_id,
             'full_page' => NULL, 'profile' => $profile->name]);
     }
@@ -31,8 +32,15 @@ class UserController extends Controller
 
         $comments = $profile->load(['comments' => function($q) { $q->orderBy('id', 'DESC'); }])->comments;
         
-        return view('profile', ['comments' => $comments, 'profile_id' => $profile_id, 'user_id' => $user_id,
+        return view('comments', ['comments' => $comments, 'profile_id' => $profile_id, 'user_id' => $user_id,
             'full_page' => '1', 'profile' => $profile->name]);
+
+        //создать view, которая будет отвечать за вывод комментариев
+        //при ajax запросе возвращать блок с комментариями
+        //найти js метод вставки котнента в блок (inner html)
+        //использовать dom selector для поиска блока
+        //подготовить блок для вставки комментариев
+        //вставлять в него комментарии
     }
 
     public function users_list()

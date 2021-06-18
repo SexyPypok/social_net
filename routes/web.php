@@ -27,6 +27,8 @@ Route::get('/profile/all', [UserController::class, 'users_list']);
 
 Route::get('profile/{id?}', [UserController::class, 'show_profile'])->where('id', '[0-9]+');
 
+Route::post('profile/{profile_id}/answer/{comment_id}', [CommentController::class, 'answer_comment'])->where('id', '[0-9]+');
+
 Route::post('/profile/{id}/add_comment', [CommentController::class, 'add_comment'])->where('id', '[0-9]+');
 
 Route::post('/profile/{id}/del_comment', [CommentController::class, 'del_comment'])->where('id', '[0-9]+');
