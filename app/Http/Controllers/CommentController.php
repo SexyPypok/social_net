@@ -25,11 +25,11 @@ class CommentController extends Controller
 
     public function del_comment(Request $request, $profile_id)
     {
-        $comment = Comment::orWhere(function($query) 
+        $comment = Comment::find($request->delComment);
+        if(($comment['author_comment_id'] == Auth::user()->id) || ($comment['wall_owner_id'] == Auth::user()->id))
         {
-            $query->where('author_comment_id', Auth::user()->id)->where('wall_owner_id', Auth::user()->id);
-        })->find($request->delComment);
-        $comment->delete();
+            $comment->delete();
+        }
 
         return redirect('/profile/'.$profile_id);
     }
