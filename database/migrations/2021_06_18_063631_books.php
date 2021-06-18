@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class EditCommentsTable extends Migration
+class Books extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,13 @@ class EditCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::table('comments', function (Blueprint $table) 
+        //
+        Schema::create('books', function($table)
         {
-            $table->renameColumn('wall_owner_id', 'user_id');
+            $table->increments('id');
+            $table->integer('book_author');
+            $table->text('name');
+            $table->text('description');
         });
     }
 
@@ -26,9 +30,6 @@ class EditCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::table('comments', function (Blueprint $table) 
-        {
-            $table->renameColumn('user_id', 'wall_owner_id');
-        });
+        Schema::drop('books');
     }
 }
