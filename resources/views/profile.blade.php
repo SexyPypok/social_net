@@ -63,6 +63,18 @@
                                 </div>
                             </form>
                         @endif
+
+                        @if($user_id == $profile_id || $lib_status)
+                            <a class="btn btn-primary" href="/profile/library">Library</a>
+                        @endif
+                        
+                        @if($user_id != $profile_id)
+                            @if($lib_status)
+                                <a class="btn btn-primary" href="/hide_library/{{  $profile_id  }}">Hide library</a>
+                            @else
+                                <a class="btn btn-primary" href="/share_library/{{  $profile_id  }}">Share library</a>
+                            @endif
+                        @endif
                     </div>
                 </div>
             </div>

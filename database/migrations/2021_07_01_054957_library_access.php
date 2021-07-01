@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Books extends Migration
+class LibraryAccess extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class Books extends Migration
      */
     public function up()
     {
-        //
-        Schema::create('books', function($table)
+        Schema::create('books_access', function($table)
         {
             $table->increments('id');
             $table->integer('book_author');
-            $table->text('name');
-            $table->text('description');
+            $table->integer('user');	
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class Books extends Migration
      */
     public function down()
     {
-        Schema::drop('books');
+        Schema::drop('books_access');
     }
 }

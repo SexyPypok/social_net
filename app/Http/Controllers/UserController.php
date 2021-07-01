@@ -14,11 +14,15 @@ class UserController extends Controller
         $user_id = $this->get_user_id();
         $profile = $this->get_profile($profile_id);
 
+        $access = new LibAccessController();
+
+        $lib_status = $access->check_status($user_id, $profile_id);
+
         $comments = $profile->load(['comments' => function($q) { $q->take(5)->orderBy('id', 'DESC'); }])->comments;
 
         
         return view('profile', ['comments' => $comments, 'profile_id' => $profile_id, 'user_id' => $user_id,
-            'full_page' => NULL, 'profile' => $profile->name]);
+            'full_page' => NULL, 'profile' => $profile->name, 'lib_status' => $lib_status]);
     }
 
     public function show_full_profile($profile_id = NULL)
@@ -76,5 +80,19 @@ class UserController extends Controller
         $profile = User::find($profile_id);
 
         return $profile;
+    }
+
+    public function show_library($user_id)
+    {
+        $profile = $this->get_profile($user_id);
+        $books = $profile->load('books')->books;
+        return view('library', ['user_id' => Auth::user()->id, 'profile' => $profile, 'books' => $books]);
+    }
+
+    public function redirect_to_library()
+    {
+        $user_id = Auth::user()->id;
+
+        return redirect('profile/library/'.$user_id);
     }
 }

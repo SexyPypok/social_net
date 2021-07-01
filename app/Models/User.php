@@ -45,4 +45,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class, 'wall_owner_id', 'id');
     }
+
+    public function books()
+    {
+        return $this->hasMany(Book::class, 'book_author');
+    }
 }
