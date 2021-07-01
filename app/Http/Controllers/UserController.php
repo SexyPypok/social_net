@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -55,24 +54,12 @@ class UserController extends Controller
 
     public function get_profile_id($profile_id)
     {
-        if($profile_id == NULL && Auth::user())
+        if($profile_id == NULL && User::find($this->get_user_id()))
         {
-            $profile_id = Auth::user()->id;
+            $profile_id = $this->get_user_id();
         }
 
         return $profile_id;
-    }
-
-    public function get_user_id()
-    {
-        $user_id = NULL;
-
-        if(Auth::user())
-        {
-            $user_id = Auth::user()->id;  
-        }
-
-        return $user_id;
     }
 
     public function get_profile($profile_id)
@@ -86,12 +73,12 @@ class UserController extends Controller
     {
         $profile = $this->get_profile($user_id);
         $books = $profile->load('books')->books;
-        return view('library', ['user_id' => Auth::user()->id, 'profile' => $profile, 'books' => $books]);
+        return view('library', ['user_id' => $this->get_user_id(), 'profile' => $profile, 'books' => $books]);
     }
 
     public function redirect_to_library()
     {
-        $user_id = Auth::user()->id;
+        $user_id = $this->get_user_id();
 
         return redirect('profile/library/'.$user_id);
     }

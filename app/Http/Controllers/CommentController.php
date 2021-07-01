@@ -10,8 +10,7 @@ class CommentController extends Controller
 {
     public function add_comment(Request $request, $profile_id)
     {
-        $user = new UserController();
-        $user_id = $user->get_user_id();
+        $user_id = $this->get_user_id();
         $comment = new Comment;
         $comment->wall_owner_id = $profile_id;
         $comment->author_comment_id = $user_id;
@@ -27,8 +26,7 @@ class CommentController extends Controller
 
     public function del_comment(Request $request, $profile_id)
     {
-        $user = new UserController();
-        $user_id = $user->get_user_id();
+        $user_id = $this->get_user_id();
         $comment = Comment::find($request->delComment);
         if(($comment['author_comment_id'] == $user_id) || ($comment['wall_owner_id'] == $user_id))
         {

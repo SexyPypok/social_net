@@ -21,8 +21,7 @@ class LibAccessNonAuthController extends Controller
     {
         $book_rights = LibAccessNonAuth::where('book_id', '=', $book_id)->first();
         $book = $book_rights->book;
-        $user = new UserController();
-        if($book->book_author == $user->get_user_id())
+        if($book->book_author == $this->get_user_id())
         {
             $book_rights->delete();
         }

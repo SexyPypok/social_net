@@ -8,14 +8,12 @@ use App\Models\Book;
 
 class BookController extends Controller
 {
-    //
     public function add_book(Request $request, $user_id)
     {
-        $user = new UserController();
         $book = new Book();
         $book->name = $request->bookName;
         $book->description = $request->bookText;
-        $book->book_author = $user->get_user_id();
+        $book->book_author = $this->get_user_id();
         $book->save();
 
         return redirect('/profile/library/'.$user_id);
@@ -23,9 +21,8 @@ class BookController extends Controller
 
     public function show_book($user_id, $book_id)
     {   
-        $user = new UserController();
         $book = $this->get_book($book_id);
-        return view('book', ['book' => $book, 'user_id' => $user->get_user_id()]);
+        return view('book', ['book' => $book, 'user_id' => $this->get_user_id()]);
     }
 
     public function show_book_unreg($book_id)
@@ -58,8 +55,7 @@ class BookController extends Controller
     public function delete_book($user_id, $book_id)
     {
         $book = $this->get_book($book_id);
-        $user = new UserController();
-        $author_id = $user->get_profile_id(NULL);
+        $author_id = $this->get_user_id();
         if($author_id == $book->book_author)
         {
             $book->delete();
@@ -73,4 +69,3 @@ class BookController extends Controller
         return view('add_book', ['user_id' => $user_id]);
     }
 }
-// profile/library/{id}

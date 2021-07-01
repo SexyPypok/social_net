@@ -12,7 +12,7 @@ class LibAccessController extends Controller
     {
         $access = new LibAccess();
         $access->user = $id;
-        $access->book_author = $this->user->get_user_id();
+        $access->book_author = $this->get_user_id();
         $access->save();
         return redirect('/profile/'.$id);
     }
@@ -32,8 +32,8 @@ class LibAccessController extends Controller
     public function hide_library($id)
     {
 
-        $author_id_db = LibAccess::where('book_author', '=', $this->user->get_user_id())->where('user', '=', $id)->first()->book_author;
-        $author_id = UserController::get_user_id();
+        $author_id_db = LibAccess::where('book_author', '=', $this->get_user_id())->where('user', '=', $id)->first()->book_author;
+        $author_id = $this->get_user_id();
         if($author_id == $author_id_db)
         {
             LibAccess::where('book_author', '=', $author_id)->where('user', '=', $id)->delete();
