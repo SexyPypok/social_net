@@ -13,15 +13,18 @@ class UserController extends Controller
         $user_id = $this->get_user_id();
         $profile = $this->get_profile($profile_id);
 
-        $access = new LibAccessController();
 
-        $lib_status = $access->check_status($user_id, $profile_id);
+        $lib_status = User::where('id', $this->get_user_id())->first()->lib_access
+            ->where('user', $profile_id)->first();
+
+        $read_status = User::where('id', $this->get_user_id())->first()->read_access
+        ->where('book_author', $profile_id)->first();
 
         $comments = $profile->load(['comments' => function($q) { $q->take(5)->orderBy('id', 'DESC'); }])->comments;
 
         
         return view('profile', ['comments' => $comments, 'profile_id' => $profile_id, 'user_id' => $user_id,
-            'full_page' => NULL, 'profile' => $profile->name, 'lib_status' => $lib_status]);
+            'full_page' => NULL, 'profile' => $profile->name, 'lib_status' => $lib_status, 'read_status' => $read_status]);
     }
 
     public function show_full_profile($profile_id = NULL)

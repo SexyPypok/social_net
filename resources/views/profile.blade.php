@@ -64,7 +64,7 @@
                             </form>
                         @endif
 
-                        @if($user_id == $profile_id || $lib_status)
+                        @if($user_id == $profile_id || $read_status)
                             <a class="btn btn-primary" href="/profile/library">Library</a>
                         @endif
                         
