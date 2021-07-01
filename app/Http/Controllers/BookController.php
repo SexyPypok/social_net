@@ -48,7 +48,10 @@ class BookController extends Controller
         $book = $this->get_book($book_id);
         $book->name = $request->bookName;
         $book->description = $request->bookText;
-        $book->save();
+        if($this->get_book($book_id)->author_id == $this->get_user_id())
+        {
+            $book->save();
+        }
         return redirect('profile/library/'.$user_id.'/read/'.$book->id);
     }
 

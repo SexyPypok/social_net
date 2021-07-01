@@ -47,31 +47,32 @@ Route::get('hide_library/{id?}', [LibAccessController::class, 'hide_library'])->
 
 Route::get('/profile/library', [UserController::class, 'redirect_to_library']);
 
-Route::get('/profile/library/{id}', [UserController::class, 'show_library'])->where('id', '[0-9]+')->middleware('lib');
+Route::get('/profile/library/{id}', [UserController::class, 'show_library'])->where('id', '[0-9]+')
+    ->middleware('lib');
 
 Route::get('/profile/library/{id}/read/{book_id}', [BookController::class, 'show_book'])
-->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+'])->middleware('lib');
+    ->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+'])->middleware('lib');
 
 Route::get('/profile/library/{user_id}/add_book_form', [BookController::class, 'add_book_form'])
-->where(['user_id' => '[0-9]+']);
+    ->where(['user_id' => '[0-9]+']);
 
 Route::post('/profile/library/{user_id}/add_book', [BookController::class, 'add_book'])
-->where(['user_id' => '[0-9]+']);
+    ->where(['user_id' => '[0-9]+']);
 
 Route::get('/profile/library/{user_id}/edit/{book_id}', [BookController::class, 'edit_book_form'])
-->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+']);
+    ->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+']);
 
 Route::post('/profile/library/{user_id}/save_book/{book_id}', [BookController::class, 'save_book'])
-->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+']);
+    ->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+']);
 
 Route::get('/profile/library/{user_id}/delete/{book_id}', [BookController::class, 'delete_book'])
-->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+']);
+    ->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+']);
 
 Route::get('/profile/library/{user_id}/share_by_link/{book_id}', [LibAccessNonAuthController::class, 'share_by_link'])
-->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+']);
+    ->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+']);
 
 Route::get('/profile/library/{user_id}/hide_by_link/{book_id}', [LibAccessNonAuthController::class, 'hide_by_link'])
-->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+']);
+    ->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+']);
 
 Route::get('/read/{book_id}', [BookController::class, 'show_book_unreg'])
     ->where(['book_id' => '[0-9]+'])->middleware('book');   
