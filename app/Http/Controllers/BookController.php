@@ -34,6 +34,10 @@ class BookController extends Controller
     public function edit_book_form($user_id, $book_id)
     {
         $book = $this->get_book($book_id);
+        if($book->book_author != $this->get_user_id())
+        {
+            return redirect('/profile/library/'.$user_id.'/read/'.$book_id);
+        }
         return view('edit_book', ['book' => $book]);
     }
 
