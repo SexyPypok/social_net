@@ -19,7 +19,8 @@
 
                                     @if($book->share_status)
                                         <a href="{{  $book->user->id  }}/hide_by_link/{{  $book->id  }}"
-                                            class="btn btn-primary">Hide by link</a>
+                                            class="btn btn-primary">Hide by link</a> 
+                                            Link of Your book: http://127.0.0.1:8000/read/{{ $book->id }}
                                     @else
                                         <a href="{{  $book->user->id  }}/share_by_link/{{  $book->id  }}"
                                             class="btn btn-primary">Share by link</a>

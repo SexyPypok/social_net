@@ -38,7 +38,7 @@ class UserController extends Controller
         
         return view('comments', ['comments' => $comments, 'profile_id' => $profile_id, 'user_id' => $user_id,
             'full_page' => '1', 'profile' => $profile->name]);
-
+        
         //создать view, которая будет отвечать за вывод комментариев
         //при ajax запросе возвращать блок с комментариями
         //найти js метод вставки котнента в блок (inner html)
