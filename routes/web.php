@@ -24,55 +24,57 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', [Controller::class, 'get_comm']);
-
 Route::get('/profile/all', [UserController::class, 'users_list']);
 
 Route::get('profile/{id?}', [UserController::class, 'show_profile'])->where('id', '[0-9]+')->name('home');
 
 Route::post('profile/{profile_id}/answer/{comment_id}', [CommentController::class, 'answer_comment'])
-->where('id', '[0-9]+');
+->where('id', '[0-9]+')->middleware('auth');
 
-Route::post('/profile/{id}/add_comment', [CommentController::class, 'add_comment'])->where('id', '[0-9]+');
+Route::post('/profile/{id}/add_comment', [CommentController::class, 'add_comment'])
+    ->where('id', '[0-9]+')->middleware('auth');
 
-Route::post('/profile/{id}/del_comment', [CommentController::class, 'del_comment'])->where('id', '[0-9]+');
+Route::post('/profile/{id}/del_comment', [CommentController::class, 'del_comment'])
+    ->where('id', '[0-9]+')->middleware('auth');
 
 Route::get('/profile/{id}/all_comments', [CommentController::class, 'show_all_comments'])->where('id', '[0-9]+');
 
 Route::get('show_full_profile/{id?}', [UserController::class, 'show_full_profile'])->where('id', '[0-9]+');
 
-Route::get('share_library/{id?}', [LibAccessController::class, 'share_library'])->where('id', '[0-9]+');
+Route::get('share_library/{id?}', [LibAccessController::class, 'share_library'])->where('id', '[0-9]+')
+    ->middleware('auth');
 
-Route::get('hide_library/{id?}', [LibAccessController::class, 'hide_library'])->where('id', '[0-9]+');
+Route::get('hide_library/{id?}', [LibAccessController::class, 'hide_library'])->where('id', '[0-9]+')
+    ->middleware('auth');
 
-Route::get('/profile/library', [UserController::class, 'redirect_to_library']);
+Route::get('/profile/library', [UserController::class, 'redirect_to_library'])->middleware('auth');
 
 Route::get('/profile/library/{id}', [UserController::class, 'show_library'])->where('id', '[0-9]+')
-    ->middleware('lib');
+    ->middleware('auth')->middleware('lib');
 
 Route::get('/profile/library/{id}/read/{book_id}', [BookController::class, 'show_book'])
-    ->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+'])->middleware('lib');
+    ->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+'])->middleware('auth')->middleware('lib');
 
 Route::get('/profile/library/{user_id}/add_book_form', [BookController::class, 'add_book_form'])
-    ->where(['user_id' => '[0-9]+']);
+    ->where(['user_id' => '[0-9]+'])->middleware('auth');
 
 Route::post('/profile/library/{user_id}/add_book', [BookController::class, 'add_book'])
-    ->where(['user_id' => '[0-9]+']);
+    ->where(['user_id' => '[0-9]+'])->middleware('auth');
 
 Route::get('/profile/library/{user_id}/edit/{book_id}', [BookController::class, 'edit_book_form'])
-    ->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+']);
+    ->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+'])->middleware('auth')->middleware('author');
 
 Route::post('/profile/library/{user_id}/save_book/{book_id}', [BookController::class, 'save_book'])
-    ->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+']);
+    ->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+'])->middleware('auth')->middleware('author');
 
 Route::get('/profile/library/{user_id}/delete/{book_id}', [BookController::class, 'delete_book'])
-    ->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+']);
+    ->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+'])->middleware('auth')->middleware('author');
 
 Route::get('/profile/library/{user_id}/share_by_link/{book_id}', [LibAccessNonAuthController::class, 'share_by_link'])
-    ->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+']);
+    ->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+'])->middleware('auth')->middleware('author');
 
 Route::get('/profile/library/{user_id}/hide_by_link/{book_id}', [LibAccessNonAuthController::class, 'hide_by_link'])
-    ->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+']);
+    ->where(['user_id' => '[0-9]+', 'book_id' => '[0-9]+'])->middleware('auth')->middleware('author');
 
 Route::get('/read/{book_id}', [BookController::class, 'show_book_unreg'])
     ->where(['book_id' => '[0-9]+'])->middleware('book');   
