@@ -65,7 +65,7 @@
                         @endif
 
                         @if($user_id == $profile_id || $read_status)
-                            <a class="btn btn-primary" href="/profile/library">Library</a>
+                            <a class="btn btn-primary" href="/profile/library/{{  $profile_id  }}">Library</a>
                         @endif
                         
                         @if($user_id != $profile_id)
