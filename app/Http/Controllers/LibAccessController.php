@@ -28,9 +28,9 @@ class LibAccessController extends Controller
         return 0;
     }
 
-    public function hide_library($id, LibAccess $lib_access)
+    public function hide_library($id)
     {
-        $status = $lib_access->where('book_author', '=', $this->get_user_id())->where('user', '=', $id)->first();
+        $status = LibAccess::where('book_author', '=', $this->get_user_id())->where('user', '=', $id)->first();
 
         if($status)
         {
